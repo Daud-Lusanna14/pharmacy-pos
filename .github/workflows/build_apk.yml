@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Android, Web & Windows
 
 on:
   push:
@@ -6,7 +6,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  # 1. JENGA ANDROID APK & WEB (Kwenye Linux)
+  build_android_and_web:
+    name: Build Android APK & Web
     runs-on: ubuntu-latest
 
     steps:
@@ -24,18 +26,54 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Rekebisha jina la lib na Get dependencies
+      - name: Get dependencies
         working-directory: ./pharmacy_pos
-        run: |
-          if [ -d "lib " ]; then mv "lib " lib; fi
-          flutter pub get
+        run: flutter pub get
 
       - name: Build Android APK
         working-directory: ./pharmacy_pos
         run: flutter build apk --release
 
+      - name: Build Web
+        working-directory: ./pharmacy_pos
+        run: flutter build web --release
+
       - name: Upload Android APK
         uses: actions/upload-artifact@v4
         with:
-          name: pharmacy-pos-apk
+          name: pharmacy-pos-android-apk
           path: pharmacy_pos/build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload Web Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: pharmacy-pos-web
+          path: pharmacy_pos/build/web
+
+  # 2. JENGA WINDOWS DESKTOP (.exe)
+  build_windows:
+    name: Build Windows Desktop
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Get dependencies
+        working-directory: ./pharmacy_pos
+        run: flutter pub get
+
+      - name: Build Windows App
+        working-directory: ./pharmacy_pos
+        run: flutter build windows --release
+
+      - name: Upload Windows Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: pharmacy-pos-windows
+          path: pharmacy_pos/build/windows/x64/runner/Release
