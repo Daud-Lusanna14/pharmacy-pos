@@ -51,10 +51,7 @@ class _StartupGatekeeperState extends State<StartupGatekeeper> {
     await kaguaRemoteSettings();
 
     if (dukaJson == null) {
-      setState(() {
-        dukaLimesajiliwa = false;
-        inapakia = false;
-      });
+      setState(() { dukaLimesajiliwa = false; inapakia = false; });
       return;
     }
 
@@ -65,11 +62,7 @@ class _StartupGatekeeperState extends State<StartupGatekeeper> {
     final sasaMs = DateTime.now().millisecondsSinceEpoch;
     final String? lastSeenStr = await _secureStorage.read(key: 'sp_last_seen_ms');
     if (lastSeenStr != null && sasaMs < (int.parse(lastSeenStr) - 600000)) {
-      setState(() {
-        dukaLimesajiliwa = true;
-        saaImechezewa = true;
-        inapakia = false;
-      });
+      setState(() { dukaLimesajiliwa = true; saaImechezewa = true; inapakia = false; });
       return;
     }
     await _secureStorage.write(key: 'sp_last_seen_ms', value: sasaMs.toString());
@@ -104,9 +97,7 @@ class _StartupGatekeeperState extends State<StartupGatekeeper> {
       final res = await http.get(Uri.parse('$supabaseUrl/rest/v1/app_settings?id=eq.1'), headers: {'apikey': supabaseAnonKey, 'Authorization': 'Bearer $supabaseAnonKey'}).timeout(const Duration(seconds: 3));
       if (res.statusCode == 200) {
         final List data = jsonDecode(res.body);
-        if (data.isNotEmpty && currentAppVersion < (data.first['min_version'] ?? 1)) {
-          setState(() => toleoLaZamani = true);
-        }
+        if (data.isNotEmpty && currentAppVersion < (data.first['min_version'] ?? 1)) setState(() => toleoLaZamani = true);
       }
     } catch (_) {}
   }
@@ -137,43 +128,14 @@ class _StartupGatekeeperState extends State<StartupGatekeeper> {
   @override
   Widget build(BuildContext context) {
     if (inapakia) {
-      return const Scaffold(
-        backgroundColor: Color(0xFF004D40),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.local_pharmacy, size: 64, color: Colors.white),
-              SizedBox(height: 12),
-              Text('SmartPharma', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-              Text(brandOwner, style: TextStyle(color: Colors.tealAccent, fontSize: 13)),
-              SizedBox(height: 24),
-              CircularProgressIndicator(color: Colors.tealAccent),
-            ],
-          ),
-        ),
-      );
+      return const Scaffold(backgroundColor: Color(0xFF004D40), body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(Icons.local_pharmacy, size: 64, color: Colors.white), SizedBox(height: 12), Text('SmartPharma', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)), Text(brandOwner, style: TextStyle(color: Colors.tealAccent, fontSize: 13)), SizedBox(height: 24), CircularProgressIndicator(color: Colors.tealAccent)])));
     }
     if (toleoLaZamani) {
-      return const Scaffold(backgroundColor: Color(0xFF004D40), body: Center(child: Padding(padding: EdgeInsets.all(24), child: Text('Toleo jipya la SmartPharma linapatikana. Tafadhali sasisha app yako.', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)))));
+      return const Scaffold(backgroundColor: Color(0xFF004D40), body: Center(child: Padding(padding: EdgeInsets.all(24), child: Text('Toleo jipya la SmartPharma linapatikana.', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)))));
     }
     if (!dukaLimesajiliwa) return const OnboardingScreen();
     if (saaImechezewa) {
-      return Scaffold(
-        backgroundColor: Colors.red.shade900,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.security_update_warning, size: 64, color: Colors.white),
-              const SizedBox(height: 12),
-              const Text('CLOCK SECURITY ALERT\nWeka Automatic Date & Time kwenye simu yako.', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 16),
-              ElevatedButton(onPressed: () { setState(() { inapakia = true; saaImechezewa = false; }); kaguaUsalamaNaLeseni(); }, child: const Text('Jaribu Tena'))
-            ],
-          ),
-        ),
-      );
+      return Scaffold(backgroundColor: Colors.red.shade900, body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [const Icon(Icons.security_update_warning, size: 64, color: Colors.white), const SizedBox(height: 12), const Text('CLOCK SECURITY ALERT\nWeka Automatic Date & Time.', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)), const SizedBox(height: 16), ElevatedButton(onPressed: () { setState(() { inapakia = true; saaImechezewa = false; }); kaguaUsalamaNaLeseni(); }, child: const Text('Jaribu Tena'))])));
     }
     if (kifurushiKimeisha) {
       return OfflineSmsPaywall(shopId: shopId, onUnlocked: () { setState(() { inapakia = true; kifurushiKimeisha = false; }); kaguaUsalamaNaLeseni(); });
@@ -181,12 +143,7 @@ class _StartupGatekeeperState extends State<StartupGatekeeper> {
     return PinLoginScreen(
       kifurushiChaSasa: kifurushiChaSasa,
       sikuZilizobaki: sikuZilizobakiZaLeseni,
-      onLoginSuccess: (duka, mhusika, siku) => SmartPharmaDashboard(
-        duka: duka,
-        mtumiajiAliyeingia: mhusika,
-        sikuZilizobakiZaLeseni: siku,
-        onLogout: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const StartupGatekeeper())),
-      ),
+      onLoginSuccess: (duka, mhusika, siku) => SmartPharmaDashboard(duka: duka, mtumiajiAliyeingia: mhusika, sikuZilizobakiZaLeseni: siku, onLogout: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const StartupGatekeeper()))),
     );
   }
 }
@@ -202,6 +159,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final _jinaDukaCtrl = TextEditingController(), _eneoCtrl = TextEditingController(), _simuCtrl = TextEditingController(), _adminJinaCtrl = TextEditingController(), _adminPinCtrl = TextEditingController(), _joinShopIdCtrl = TextEditingController();
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
   String lughaIliyochaguliwa = 'sw';
+
+  void _ujumbe(String msg, Color col) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg), backgroundColor: col));
 
   Future<void> kamilishaUsajiliMpya() async {
     if (_jinaDukaCtrl.text.trim().isEmpty || _simuCtrl.text.trim().isEmpty || _adminJinaCtrl.text.trim().isEmpty || _adminPinCtrl.text.trim().length != 4) {
@@ -223,3 +182,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     await _secureStorage.write(key: 'sp_last_seen_ms', value: DateTime.now().millisecondsSinceEpoch.toString());
 
     if (!mounted) return;
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const StartupGatekeeper()));
+  }
+
+  Future<void> jiungeNaDukaLililopo() async {
+    final sId = _joinShopIdCtrl.text.trim().toUpperCase();
+    if (sId.isEmpty) { _ujumbe('Weka Shop ID uliyopewa na Admin wako', Colors.red); return; }
+    if (supabaseUrl.contains('YOUR_PROJECT_ID')) { _ujumbe('Seva haijaunganishwa bado', Colors.red); return; }
+
