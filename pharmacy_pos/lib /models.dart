@@ -8,22 +8,13 @@ const String supabaseUrl = 'https://YOUR_PROJECT_ID.supabase.co';
 const String supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
 const int currentAppVersion = 3;
 
-String get _s1 => 'MJ14_SP_';
-String get _s2 => 'G99X_SEC_';
-String get _s3 => '887711_TZ';
-String get secretSignatureSalt => '$_s1$_s2$_s3';
-
-String hashText(String input) {
-  final bytes = utf8.encode('$input-$secretSignatureSalt');
-  return sha256.convert(bytes).toString();
-}
+String hashText(String input) => sha256.convert(utf8.encode('$input-MJ14_SP_G99X')).toString();
 
 class AppLang {
   static String current = 'sw';
   static bool get isRTL => current == 'ar';
-
   static String t(String key) {
-    const Map<String, Map<String, String>> dict = {
+    const dict = {
       'register_biz': {'sw': 'Sajili Duka Jipya (Admin)', 'en': 'Register New Shop (Admin)', 'fr': 'Nouvelle Pharmacie', 'es': 'Registrar Farmacia', 'ar': 'تسجيل صيدلية جديدة'},
       'join_biz': {'sw': 'Jiunge na Duka (Mhudumu)', 'en': 'Join Existing Shop (Staff)', 'fr': 'Rejoindre Pharmacie', 'es': 'Unirse a Farmacia', 'ar': 'الانضمام إلى صيدلية'},
       'shop_name': {'sw': 'Jina la Duka / Famasi *', 'en': 'Pharmacy / Shop Name *', 'fr': 'Nom de la Pharmacie *', 'es': 'Nombre de Farmacia *', 'ar': 'اسم الصيدلية *'},
@@ -67,11 +58,7 @@ class MzigoDawa {
   int idadiStoo;
   MzigoDawa({required this.id, required this.jina, required this.aina, required this.beiKununua, required this.beiKuuza, required this.idadiStoo, required this.tareheExpiry});
   int get sikuZilizobaki {
-    try {
-      final expDate = DateTime.parse(tareheExpiry);
-      final leo = DateTime.now();
-      return expDate.difference(DateTime(leo.year, leo.month, leo.day)).inDays;
-    } catch (e) { return 999; }
+    try { return DateTime.parse(tareheExpiry).difference(DateTime.now()).inDays; } catch (_) { return 999; }
   }
   bool get imeExpire => sikuZilizobaki <= 0;
   Map<String, dynamic> toJson() => {'id': id, 'jina': jina, 'aina': aina, 'beiKununua': beiKununua, 'beiKuuza': beiKuuza, 'idadiStoo': idadiStoo, 'tareheExpiry': tareheExpiry};
