@@ -233,7 +233,17 @@ class _SmartPharmaDashboardState extends State<SmartPharmaDashboard> {
     final saa = "${sasa.hour.toString().padLeft(2, '0')}:${sasa.minute.toString().padLeft(2, '0')}";
     final maelezo = kikapu.map((k) => '${k.mzigo.jina} x${k.idadi}').join(', ');
 
-    setState(() {
+       setState(() {
       for (var item in kikapu) {
         item.mzigo.idadiStoo -= item.idadi;
       }
+      miamala.insert(0, Muamala(
+        // ... vipengele vyako vya muamala ...
+      ));
+      kikapu.clear();
+    }); // <-- HAKIKISHA KUNA NUKTA-MKATO (;) HAPA!
+    hifadhiData();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Mauzo yamekamilika!'), backgroundColor: Colors.green),
+    );
+  }
