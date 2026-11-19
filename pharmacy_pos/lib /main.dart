@@ -1040,8 +1040,6 @@ Text('Backup')),
  final d = mizigo[i];
  return ListTile(
  title: Text(d.jina, style: const TextStyle(fontWeight: FontWeight.bold)),
- subtitle: Text('Nunua: ${fmt(d.beiKununua)} | Uza: ${fmt(d.beiKuuza)}\nStoo: $
-{d.idadiStoo} | Exp: ${d.tareheExpiry}'),
  subtitle: Text('Nunua: ${fmt(d.beiKununua)} | Uza: ${fmt(d.beiKuuza)} | Stoo: ${d.idadiStoo} | Exp: ${d.tareheExpiry}'),
  trailing: Row(
  mainAxisSize: MainAxisSize.min,
