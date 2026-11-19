@@ -793,8 +793,7 @@ OutlineInputBorder()),
  mainAxisSize: MainAxisSize.min,
  children: [
  TextField(controller: jinaCtrl, decoration: const InputDecoration(labelText: 'Jina la Dawa')),
- TextField(controller: ainaCtrl, decoration: const InputDecoration(labelText: 'Aina (mf.
-Vidonge, Syrup)')),
+ TextField(controller: ainaCtrl, decoration: const InputDecoration(labelText: 'Aina (mf. Vidonge, Syrup)')),
  TextField(controller: kununuaCtrl, keyboardType: TextInputType.number, decoration: const
 InputDecoration(labelText: 'Bei ya Kununua')),
  TextField(controller: kuuzaCtrl, keyboardType: TextInputType.number, decoration: const
