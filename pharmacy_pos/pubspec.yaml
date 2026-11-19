@@ -1,7 +1,7 @@
 name: pharmacy_pos
-description: "SmartPharma - Global Commercial Pharmacy POS"
+description: "SmartPharma POS - Powered by Mj14"
 publish_to: 'none'
-version: 3.0.0+5
+version: 3.0.0+6
 
 environment:
   sdk: ^3.5.0
