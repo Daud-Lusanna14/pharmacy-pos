@@ -24,13 +24,17 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Get dependencies
+      - name: Kagua mafaili na Get dependencies
         working-directory: ./pharmacy_pos
-        run: flutter pub get
+        run: |
+          pwd
+          ls -la
+          ls -la lib/
+          flutter pub get
 
       - name: Build Android APK
         working-directory: ./pharmacy_pos
-        run: flutter build apk --release --obfuscate --split-debug-info=build/app/outputs/symbols
+        run: flutter build apk --release --target=lib/main.dart
 
       - name: Upload Android APK
         uses: actions/upload-artifact@v4
