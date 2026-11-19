@@ -1042,7 +1042,7 @@ Text('Backup')),
  title: Text(d.jina, style: const TextStyle(fontWeight: FontWeight.bold)),
  subtitle: Text('Nunua: ${fmt(d.beiKununua)} | Uza: ${fmt(d.beiKuuza)}\nStoo: $
 {d.idadiStoo} | Exp: ${d.tareheExpiry}'),
- isThreeLine: true,
+ subtitle: Text('Nunua: ${fmt(d.beiKununua)} | Uza: ${fmt(d.beiKuuza)} | Stoo: ${d.idadiStoo} | Exp: ${d.tareheExpiry}'),
  trailing: Row(
  mainAxisSize: MainAxisSize.min,
  children: [
